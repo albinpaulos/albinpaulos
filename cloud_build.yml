@@ -9,13 +9,13 @@ steps:
       echo "Branch Name: $BRANCH NAME" &&
       git checkout $BRANCH_NAME;
       #Fetch the Current and Previous SHA values 
-      if [["$BRANCH NAME" == "release" || "$BRANCH NAME" == "main" ]];
+      if [["$BRANCH NAME" == "main" || "$BRANCH NAME" == "main" ]];
       then
-      current_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk '{print $2}')"; 
-      last_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk '(print $3}')";
+      current_commit_sha="$(git log --format="%H" -n 1 )"; 
+      last_commit_sha="$(git log -n 2 --pretty=format:"%H" | tail -1)";
       else
       current_commit_sha=$COMMIT_SHA;
-      last_commit_sha=$(git log $BRANCH NAME --format-"%H" -n 2 | tail -n 1);
+      #last_commit_sha=$(git log $BRANCH NAME --format-"%H" -n 2 | tail -n 1);
       fi
       echo "This is the last commit id $last_commit_sha" &&
       echo "This is the build source commit $current_commit_sha" &&
