@@ -27,8 +27,8 @@ steps:
       for project in $cloud_functions_str;
       do 
         if [-e "cloud function/$project"]; then
-	   cloud_functions_count=$[cloud_functions_count+1]
-	   cloud functions_ list="$cloud_functions_list""$project"", 
+          cloud_functions_count=$[cloud_functions_count+1]
+          cloud functions_ list="$cloud_functions_list""$project"", 
 	fi 
       done &&
       cloud_functions_list=$(echo $cloud_functions_list | sed 's/.$//') && 
