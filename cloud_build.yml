@@ -11,11 +11,11 @@ steps:
       #Fetch the Current and Previous SHA values 
       if [["$BRANCH NAME" == "release" || "$BRANCH NAME" == "main" ]];
       then
-      current_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk "(print $2}*)"; 
+      current_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk '{print $2}')"; 
       last_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk '(print $3}')";
       else
       current_commit_sha=$COMMIT_SHA;
-      last commit sha=$(git log $BRANCH NAME --format-"%H" -n 2 | tail -n 1);
+      last_commit_sha=$(git log $BRANCH NAME --format-"%H" -n 2 | tail -n 1);
       fi
       echo "This is the last commit id $last_commit_sha" &&
       echo "This is the build source commit $current_commit_sha" &&
@@ -35,9 +35,6 @@ steps:
       echo "$cloud_functions_list" > /workspace/local_cloud_functions.txt &&
       echo "printing the added or modified cloud functions $(cat /workspace/local_cloud_ functions.txt)" 
       echo "cloud_functions_count: $cloud _functions_count"
-  volumes:
-  - name: 'ssh' 
-    path: /root/.ssh 
   id: get_changed_files
 
 - name: 'ger.io/cloud-builders/git' 
