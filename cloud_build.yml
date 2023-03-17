@@ -3,58 +3,59 @@ steps:
   entrypoint: '/bin/bash'
   args:
     - -c
-	  - |
-	  git clone https://github.com/albinpaulos/albinpaulos.git && 
-	  cd $REPO NAME &&
-    echo "Branch Name: $BRANCH NAME" &&
-	  git checkout $BRANCH_NAME;
-    #Fetch the Current and Previous SHA values 
-    if [["$BRANCH NAME" == "release" || "$BRANCH NAME" == "main" ]];
-    then
-    current_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk "(print $2}*)"; 
-	  last_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk '(print $3}')";
-    else
-    current_commit_sha=$COMMIT_SHA;
-    last commit sha=$(git log $BRANCH NAME --format-"%H" -n 2 | tail -n 1);
-    fi 
-    echo "This is the last commit id $last_commit_sha" &&
-	  echo "This is the build source commit $current_commit_sha" &&
-    cloud_functions="$(git diff --name-only $last_commit_sha $current_commit_sha folder/* | awk -F '/' '{print $2}' | uniq)" 
-	  echo "changes observed from git diff $cloud functions" && 
-	  cloud_functions_str=${cloud functions [@]} &&
-	  echo "cloud functions list : $cloud_functions_str" && 
-	  cloud functions list-"" && cloud_functions_count=0 &&
+    - |
+      git clone https://github.com/albinpaulos/albinpaulos.git && 
+      cd $REPO NAME &&
+      echo "Branch Name: $BRANCH NAME" &&
+      git checkout $BRANCH_NAME;
+      #Fetch the Current and Previous SHA values 
+      if [["$BRANCH NAME" == "release" || "$BRANCH NAME" == "main" ]];
+      then
+      current_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk "(print $2}*)"; 
+      last_commit_sha="$(git log --merges -n 1 | grep 'Merge:' | awk '(print $3}')";
+      else
+      current_commit_sha=$COMMIT_SHA;
+      last commit sha=$(git log $BRANCH NAME --format-"%H" -n 2 | tail -n 1);
+      fi
+      echo "This is the last commit id $last_commit_sha" &&
+      echo "This is the build source commit $current_commit_sha" &&
+      cloud_functions="$(git diff --name-only $last_commit_sha $current_commit_sha folder/* | awk -F '/' '{print $2}' | uniq)" 
+      echo "changes observed from git diff $cloud functions" && 
+      cloud_functions_str=${cloud functions [@]} &&
+      echo "cloud functions list : $cloud_functions_str" && 
+      cloud functions list-"" && cloud_functions_count=0 &&
       for project in $cloud_functions_str;
       do 
-	      if [-e "cloud function/$project"]; then
-           cloud_functions_count=$[cloud_functions_count+1]
-           cloud functions_ list="$cloud_functions_list""$project"", 
-		     fi 
-		   done &&
-       cloud_functions_list=$(echo $cloud_functions_list | sed 's/.$//') && 
-		   echo "$cloud_functions_list" > /workspace/local_cloud_functions.txt &&
-       echo "printing the added or modified cloud functions $(cat /workspace/local_cloud_ functions.txt)" 
-		   echo "cloud_functions_count: $cloud _functions_count"
-   volumes:
-   - name: 'ssh' 
-	   path: /root/.ssh 
-	 id: get_changed_files
+        if [-e "cloud function/$project"]; then
+	   cloud_functions_count=$[cloud_functions_count+1]
+	   cloud functions_ list="$cloud_functions_list""$project"", 
+	fi 
+      done &&
+      cloud_functions_list=$(echo $cloud_functions_list | sed 's/.$//') && 
+      echo "$cloud_functions_list" > /workspace/local_cloud_functions.txt &&
+      echo "printing the added or modified cloud functions $(cat /workspace/local_cloud_ functions.txt)" 
+      echo "cloud_functions_count: $cloud _functions_count"
+  volumes:
+  - name: 'ssh' 
+    path: /root/.ssh 
+  id: get_changed_files
+
 - name: 'ger.io/cloud-builders/git' 
   entrypoint: '/bin/bash' 
   args:
     - - C
     - |
       cloud_functions=$(cat /workspace/local_cloud_functions.txt) && 
-	    echo "cloud_functions $cloud_functions" &&
+      echo "cloud_functions $cloud_functions" &&
       cloud function=$(echo $cloud_functions | sed 's/, /\n/g') && for project in $cloud_function;
       do 
-	    cd $project &&
-        echo "deploying cloud function $project" && 
-		    source deployment_parameters.txt
-        echo "printing source variable $deployment_parameters" &&
-        $(gcloud functions deploy $project --region=us-east4 --project=gothic-album-38021 --runtime=python39 --trigger-http)
-        echo "deployed cloud function $project" &&
-        cd ..
-	  done
+         cd $project &&
+         echo "deploying cloud function $project" && 
+	 source deployment_parameters.txt
+         echo "printing source variable $deployment_parameters" &&
+         $(gcloud functions deploy $project --region=us-east4 --project=gothic-album-38021 --runtime=python39 --trigger-http)
+         echo "deployed cloud function $project" &&
+         cd ..
+       done
 dir: 'folder'
 id: deploy_cloud_function
