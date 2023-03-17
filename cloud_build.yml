@@ -29,7 +29,7 @@ steps:
         if [-e "cloud function/$project"]; then
           cloud_functions_count=$[cloud_functions_count+1]
           cloud functions_ list="$cloud_functions_list""$project"", 
-	fi 
+        fi 
       done &&
       cloud_functions_list=$(echo $cloud_functions_list | sed 's/.$//') && 
       echo "$cloud_functions_list" > /workspace/local_cloud_functions.txt &&
@@ -51,7 +51,7 @@ steps:
       do 
          cd $project &&
          echo "deploying cloud function $project" && 
-	 source deployment_parameters.txt
+         source deployment_parameters.txt
          echo "printing source variable $deployment_parameters" &&
          $(gcloud functions deploy $project --region=us-east4 --project=gothic-album-38021 --runtime=python39 --trigger-http)
          echo "deployed cloud function $project" &&
