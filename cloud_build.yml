@@ -32,8 +32,8 @@ steps:
       done &&
       cloud_functions_list=$(echo $cloud_functions_list | sed 's/.$//') && 
       echo "$cloud_functions_list" > /workspace/local_cloud_functions.txt &&
-      echo "printing the added or modified cloud functions $(cat /workspace/local_cloud_ functions.txt)" 
-      echo "cloud_functions_count: $cloud _functions_count"
+      echo "printing the added or modified cloud functions $(cat /workspace/local_cloud_functions.txt)" 
+      echo "cloud_functions_count: $cloud_functions_count"
   volumes:
   - name: 'workspace1'
     path: workspace
