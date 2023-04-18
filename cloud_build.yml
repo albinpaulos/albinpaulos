@@ -58,5 +58,6 @@ steps:
          cd ..
       done
   dir: 'folder'
-  logging: 'CLOUD_LOGGING_ONLY'
   id: 'deploy_cloud_function'
+  logs:
+    - 'CLOUD_LOGGING_ONLY'
