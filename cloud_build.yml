@@ -58,6 +58,5 @@ steps:
       done
   dir: 'folder'
   id: deploy_cloud_function
- options:
-  logging: CLOUD_LOGGING_ONLY
-  
+  options:
+    logging: CLOUD_LOGGING_ONLY
