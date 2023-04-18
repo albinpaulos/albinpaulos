@@ -39,7 +39,7 @@ steps:
     path: workspace
   id: get_changed_files
 
-- name: 'ger.io/cloud-builders/git' 
+- name: 'gcr.io/cloud-builders/git' 
   entrypoint: '/bin/bash' 
   args:
     - -c
