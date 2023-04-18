@@ -38,7 +38,6 @@ steps:
   - name: 'workspace1'
     path: workspace
   id: get_changed_files
-
 - name: 'gcr.io/cloud-builders/git' 
   entrypoint: '/bin/bash' 
   args:
