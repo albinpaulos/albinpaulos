@@ -19,12 +19,13 @@ steps:
       echo "This is the build source commit $current_commit_sha" &&
       cloud_functions="$(git diff --name-only $last_commit_sha $current_commit_sha folder/* | awk -F '/' '{print $2}' | uniq)" 
       echo "changes observed from git diff $cloud functions" && 
-      cloud_functions_str=${cloud functions [@]} &&
+      cloud_functions_str=${cloud_functions [@]} &&
       echo "cloud functions list : $cloud_functions_str" && 
-      cloud functions list-"" && cloud_functions_count=0 &&
+      cloud_functions_list="" &&
+      cloud_functions_count=0 &&
       for project in $cloud_functions_str;
       do 
-        if [-e "cloud function/$project"]; then
+        if [-e "folder/$project"]; then
           cloud_functions_count=$[cloud_functions_count+1]
           cloud functions_ list="$cloud_functions_list""$project"", 
         fi 
