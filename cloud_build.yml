@@ -18,7 +18,7 @@ steps:
       echo "This is the last commit id $last_commit_sha" &&
       echo "This is the build source commit $current_commit_sha" &&
       cloud_functions="$(git diff --name-only $last_commit_sha $current_commit_sha folder/* | awk -F '/' '{print $2}' | uniq)" 
-      echo "changes observed from git diff $cloud functions" && 
+      echo "changes observed from git diff $cloud_functions" && 
       cloud_functions_str=${cloud_functions [@]} &&
       echo "cloud functions list : $cloud_functions_str" && 
       cloud_functions_list="" &&
