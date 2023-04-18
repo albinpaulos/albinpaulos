@@ -27,7 +27,7 @@ steps:
       do 
         if [-e "folder/$project"]; then
           cloud_functions_count=$[cloud_functions_count+1]
-          cloud functions_ list="$cloud_functions_list""$project"", 
+          cloud_functions_ list="$cloud_functions_list""$project"", 
         fi 
       done &&
       cloud_functions_list=$(echo $cloud_functions_list | sed 's/.$//') && 
@@ -46,7 +46,7 @@ steps:
     - |
       cloud_functions=$(cat /workspace/local_cloud_functions.txt) && 
       echo "cloud_functions $cloud_functions" &&
-      cloud function=$(echo $cloud_functions | sed 's/, /\n/g') && for project in $cloud_function;
+      cloud_function=$(echo $cloud_functions | sed 's/, /\n/g') && for project in $cloud_function;
       do 
          cd $project &&
          echo "deploying cloud function $project" && 
